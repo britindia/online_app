@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#! /usr/bin/env python3.5
+####!/usr/bin/python
 # Output @ http://localhost:5000
 import numpy as np
 from flask import Flask, request, jsonify, render_template, url_for
@@ -43,12 +44,12 @@ def predict():
 #          fhandler.write("\tmp\{}".format("input_reviews.csv"))
     
 #     prediction = os.system("python predict.py --eval_train") 
-    subprocess.check_output([sys.executable,"predict.py","--eval_train"])
+    subprocess.check_output([sys.executable,"predict_pb.py"])
 
     with open(os.path.join("/tmp/","online_prediction.csv"), 'r') as f:
     	 prediction=np.column_stack(list(csv.reader(f)))
     print ("Prediction: {}".format(prediction))
-    review_text="Review Text: {}".format(prediction[0][0])
+    review_text="Review Text: \n {} ".format(prediction[0][0])
     sentiment="Predicted Sentiment: {}".format(prediction[1][0])
     return render_template('home.html', **locals())
 
